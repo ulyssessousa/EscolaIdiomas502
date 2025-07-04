@@ -15,6 +15,10 @@ public class Idioma {
     private String nome;
     private String codigoISO;
 
+    public Idioma() {
+    }
+
+    
     public Idioma(String nome, String codigoISO) {
         this.nome = nome;
         this.codigoISO = codigoISO;

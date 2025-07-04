@@ -18,6 +18,18 @@ public class Matricula {
     private Date dataMatricula;
     private String statusMatricula;
 
+    public Matricula() {
+    }
+
+    public Matricula(int idMatricula, int idAluno, int idTurma, Date dataMatricula, String statusMatricula) {
+        this.idMatricula = idMatricula;
+        this.idAluno = idAluno;
+        this.idTurma = idTurma;
+        this.dataMatricula = dataMatricula;
+        this.statusMatricula = statusMatricula;
+    }
+
+    
     public Matricula(int idAluno, int idTurma, Date dataMatricula, String statusMatricula) {
         this.idAluno = idAluno;
         this.idTurma = idTurma;

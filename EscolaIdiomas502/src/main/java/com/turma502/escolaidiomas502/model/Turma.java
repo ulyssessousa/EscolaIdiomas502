@@ -21,6 +21,21 @@ public class Turma {
     private Date dataFim;
     private int capacidadeMaxima;
 
+    public Turma() {
+    }
+
+    public Turma(int idTurma, int idIdioma, int idProfessor, String nivel, String horario, Date dataInicio, Date dataFim, int capacidadeMaxima) {
+        this.idTurma = idTurma;
+        this.idIdioma = idIdioma;
+        this.idProfessor = idProfessor;
+        this.nivel = nivel;
+        this.horario = horario;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.capacidadeMaxima = capacidadeMaxima;
+    }
+
+    
     public Turma(int idIdioma, int idProfessor, String nivel, String horario, Date dataInicio, Date dataFim, int capacidadeMaxima) {
         this.idIdioma = idIdioma;
         this.idProfessor = idProfessor;

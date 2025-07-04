@@ -16,6 +16,17 @@ public class Professor {
     private String email;
     private String telefone;
 
+    public Professor() {
+    }
+
+    public Professor(int idProfessor, String nome, String email, String telefone) {
+        this.idProfessor = idProfessor;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
+    
     public Professor(String nome, String email, String telefone) {
         this.nome = nome;
         this.email = email;

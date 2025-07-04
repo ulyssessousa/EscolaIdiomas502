@@ -18,6 +18,17 @@ public class Aluno {
     private String email;
     private String telefone;
 
+    public Aluno() {
+    }
+
+    public Aluno(int idAluno, String nome, Date dataNascimento, String email, String telefone) {
+        this.idAluno = idAluno;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
     public Aluno(String nome, Date dataNascimento, String email, String telefone) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
