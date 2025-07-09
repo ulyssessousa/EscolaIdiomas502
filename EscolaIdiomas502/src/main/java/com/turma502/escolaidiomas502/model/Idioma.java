@@ -4,6 +4,8 @@
  */
 package com.turma502.escolaidiomas502.model;
 
+import com.turma502.escolaidiomas502.dao.ExceptionDAO;
+import com.turma502.escolaidiomas502.dao.IdiomaDAO;
 import java.util.ArrayList;
 
 /**
@@ -42,8 +44,8 @@ public class Idioma {
         return codigoISO;
     }
     
-    public void cadastrarIdioma(Idioma idioma){
-        
+    public void cadastrarIdioma(Idioma idioma) throws ExceptionDAO {
+        new IdiomaDAO().cadastrarIdioma(idioma);
     }
     
     public void atualizarIdioma(Idioma idioma){

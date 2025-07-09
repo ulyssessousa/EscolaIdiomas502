@@ -5,6 +5,9 @@
 package com.turma502.escolaidiomas502.view;
 
 import com.turma502.escolaidiomas502.controller.IdiomaController;
+import com.turma502.escolaidiomas502.dao.ExceptionDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -173,7 +176,11 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparCamposActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        cadastrarIdioma();
+        try {
+            cadastrarIdioma();
+        } catch (ExceptionDAO ex) {
+            Logger.getLogger(JanelaCadastroIdioma.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
 
@@ -197,7 +204,7 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
        txtNomeIdioma.setText("");
     }
 
-    private void cadastrarIdioma() {
+    private void cadastrarIdioma() throws ExceptionDAO {
         IdiomaController idiomaController = new IdiomaController();
         String nomeIdioma = txtNomeIdioma.getText();
         String codigoISO = txtCodigoISO.getText();
