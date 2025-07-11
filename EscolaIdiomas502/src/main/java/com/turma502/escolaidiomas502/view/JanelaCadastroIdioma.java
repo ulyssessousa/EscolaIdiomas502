@@ -6,9 +6,12 @@ package com.turma502.escolaidiomas502.view;
 
 import com.turma502.escolaidiomas502.controller.IdiomaController;
 import com.turma502.escolaidiomas502.dao.ExceptionDAO;
+import com.turma502.escolaidiomas502.model.Idioma;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,6 +24,7 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
      */
     public JanelaCadastroIdioma() {
         initComponents();
+        carregarTabela();
     }
 
     /**
@@ -176,11 +180,9 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparCamposActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        try {
-            cadastrarIdioma();
-        } catch (ExceptionDAO ex) {
-            Logger.getLogger(JanelaCadastroIdioma.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
+        cadastrarIdioma();
+        carregarTabela();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
 
@@ -204,17 +206,46 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
        txtNomeIdioma.setText("");
     }
 
-    private void cadastrarIdioma() throws ExceptionDAO {
+    private void cadastrarIdioma() {
         IdiomaController idiomaController = new IdiomaController();
         String nomeIdioma = txtNomeIdioma.getText();
         String codigoISO = txtCodigoISO.getText();
-        boolean cadastrou = idiomaController.cadastrarIdioma(nomeIdioma, codigoISO);
-        if(cadastrou){
+        boolean cadastrou;
+        try {
+            cadastrou = idiomaController.cadastrarIdioma(nomeIdioma, codigoISO);
+            if(cadastrou){
             JOptionPane.showMessageDialog(this, 
                     "Cadastro realizado com sucesso.");
-        }else{
-            JOptionPane.showMessageDialog(this, 
-                    "Os campos não foram preenchidos corretamente.");
+            }else{
+                JOptionPane.showMessageDialog(this, 
+                        "Os campos não foram preenchidos corretamente.");
+            }
+        } catch (ExceptionDAO ex) {
+            JOptionPane.showMessageDialog(this, "Erro: " + ex);
         }
+        
+    }
+    
+    private void carregarTabela(){
+        IdiomaController idiomaController = new IdiomaController();
+        ArrayList<Idioma> idiomas = null;
+        
+        try{
+            DefaultTableModel modeloTabela = (DefaultTableModel) tblIdioma.getModel();
+            modeloTabela.setRowCount(0);
+            idiomas = idiomaController.consultarIdiomas();
+            if (idiomas != null){
+                for(Idioma idiomaAtual : idiomas){
+                    modeloTabela.addRow(new Object[]{
+                        idiomaAtual.getIdIdioma(),
+                        idiomaAtual.getNome(),
+                        idiomaAtual.getCodigoISO()
+                    });
+                }
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Erro ao carregar tabela.");
+        }
+               
     }
 }

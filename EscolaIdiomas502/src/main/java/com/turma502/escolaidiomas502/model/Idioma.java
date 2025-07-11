@@ -56,7 +56,9 @@ public class Idioma {
         
     }
     
-    public ArrayList<Idioma> consultarIdioma(String nome){
-        return null;
+    public ArrayList<Idioma> consultarIdioma() throws ExceptionDAO{
+        ArrayList<Idioma> idiomas = new IdiomaDAO().consultarIdiomas();
+        
+        return idiomas;
     }
 }

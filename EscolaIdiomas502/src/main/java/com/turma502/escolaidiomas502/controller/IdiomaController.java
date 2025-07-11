@@ -6,6 +6,7 @@ package com.turma502.escolaidiomas502.controller;
 
 import com.turma502.escolaidiomas502.dao.ExceptionDAO;
 import com.turma502.escolaidiomas502.model.Idioma;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,5 +25,10 @@ public class IdiomaController {
             return true;
         }
         return false;
+    }
+    
+    public ArrayList<Idioma> consultarIdiomas() throws ExceptionDAO{
+        ArrayList<Idioma> idiomas = new Idioma().consultarIdioma();
+        return idiomas;
     }
 }
