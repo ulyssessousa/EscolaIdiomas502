@@ -52,8 +52,8 @@ public class Idioma {
         
     }
     
-    public void excluirIdioma(Idioma idioma){
-        
+    public void excluirIdioma(int idIdioma) throws ExceptionDAO{
+        new IdiomaDAO().excluirIdioma(idIdioma);
     }
     
     public ArrayList<Idioma> consultarIdioma() throws ExceptionDAO{

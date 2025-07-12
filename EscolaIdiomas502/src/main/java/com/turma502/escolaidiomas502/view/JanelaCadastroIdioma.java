@@ -77,6 +77,11 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -96,9 +101,7 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
                         .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtNomeIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(txtCodigoISO, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(txtCodigoISO, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -185,6 +188,11 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
         carregarTabela();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        excluirIdioma();
+        carregarTabela();
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExcluir;
@@ -248,4 +256,24 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
         }
                
     }
+    
+    private void excluirIdioma(){
+        if (tblIdioma.getSelectedRow() < 0){
+            JOptionPane.showMessageDialog(this, "Não há idioma selecionado.");
+            return;
+        }
+        DefaultTableModel modeloTabela = (DefaultTableModel)tblIdioma.getModel();
+        IdiomaController idiomaController = new IdiomaController();
+        
+        int linhaSeleciona = tblIdioma.getSelectedRow();
+        
+        int idIdioma = (Integer) modeloTabela.getValueAt(linhaSeleciona, 0);
+        
+        try{
+            idiomaController.excluirIdioma(idIdioma);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Erro: " + e);
+        }
+    }
+    
 }

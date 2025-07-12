@@ -31,4 +31,8 @@ public class IdiomaController {
         ArrayList<Idioma> idiomas = new Idioma().consultarIdioma();
         return idiomas;
     }
+    
+    public void excluirIdioma(int idIdioma) throws ExceptionDAO {
+        new Idioma().excluirIdioma(idIdioma);
+    }
 }

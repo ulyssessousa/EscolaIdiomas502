@@ -36,20 +36,7 @@ public class IdiomaDAO {
        }finally{
            ConexaoBanco.fecharPreparedStatement(preparedStatement);
            ConexaoBanco.fecharConexao(connection);
-           /*if(preparedStatement != null){
-               try{
-                   preparedStatement.close();
-               }catch(SQLException e){
-                   throw new ExceptionDAO("Erro ao fechar preparedStatement: " + e);
-               }
-           }
-           if(connection != null){
-               try{
-                   connection.close();
-               }catch(SQLException e){
-                   throw new ExceptionDAO("Erro ao fechar a conexão: " + e);
-               }
-           }*/
+           
        }
        
        
@@ -86,6 +73,27 @@ public class IdiomaDAO {
            ConexaoBanco.fecharConexao(connection);            
         }
         return idiomas;
+    }
+    
+    public void excluirIdioma(int idIdioma) throws ExceptionDAO{
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try{
+            String strSQL = "delete from idioma where ididioma = ?;";
+            connection = new ConexaoBanco().getConnection();
+            if (connection != null){
+                preparedStatement = connection.prepareStatement(strSQL);
+                preparedStatement.setInt(1, idIdioma);
+                preparedStatement.execute();
+                
+            }
+        }catch(SQLException e){
+            throw new ExceptionDAO("Erro ao excluir idioma: " + e);
+        }finally{
+            ConexaoBanco.fecharPreparedStatement(preparedStatement);
+            ConexaoBanco.fecharConexao(connection);
+        }
     }
     
 }
