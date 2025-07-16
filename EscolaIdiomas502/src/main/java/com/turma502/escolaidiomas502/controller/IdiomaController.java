@@ -35,4 +35,17 @@ public class IdiomaController {
     public void excluirIdioma(int idIdioma) throws ExceptionDAO {
         new Idioma().excluirIdioma(idIdioma);
     }
+    
+    public boolean editarIdioma(int idIdioma, String nomeIdioma, String codigoISO) throws ExceptionDAO{
+        if(nomeIdioma != null && nomeIdioma.length()> 0 
+                && codigoISO != null && codigoISO.length() > 0){
+            
+            Idioma idioma = new Idioma(idIdioma, nomeIdioma, codigoISO);
+            
+            new Idioma().atualizarIdioma(idioma);
+                    
+            return true;
+        }
+        return false;
+    }
 }

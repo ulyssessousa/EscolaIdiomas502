@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -90,6 +91,29 @@ public class IdiomaDAO {
             }
         }catch(SQLException e){
             throw new ExceptionDAO("Erro ao excluir idioma: " + e);
+        }finally{
+            ConexaoBanco.fecharPreparedStatement(preparedStatement);
+            ConexaoBanco.fecharConexao(connection);
+        }
+    }
+    
+    public void editarIdioma(Idioma idioma) throws ExceptionDAO{
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try{
+            String strSQL = "update idioma set ";
+            strSQL += " nome = ?, codigoISO = ? ";
+            strSQL += " where ididioma = ?;";
+            connection = new ConexaoBanco().getConnection();
+            preparedStatement = connection.prepareStatement(strSQL);
+            preparedStatement.setString(1, idioma.getNome());
+            preparedStatement.setString(2, idioma.getCodigoISO());
+            preparedStatement.setInt(3, idioma.getIdIdioma());
+            preparedStatement.execute();
+           
+        }catch(SQLException e){
+            throw new ExceptionDAO("Erro ao atulizar idioma: " + e);
         }finally{
             ConexaoBanco.fecharPreparedStatement(preparedStatement);
             ConexaoBanco.fecharConexao(connection);

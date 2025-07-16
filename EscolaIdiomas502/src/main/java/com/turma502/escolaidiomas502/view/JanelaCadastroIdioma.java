@@ -19,12 +19,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
 
+    private int idIdiomaSelecionado;
     /**
      * Creates new form JanelaCadastroIdioma
      */
     public JanelaCadastroIdioma() {
         initComponents();
         carregarTabela();
+        idIdiomaSelecionado = 0;
     }
 
     /**
@@ -149,6 +151,11 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblIdioma.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblIdiomaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblIdioma);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,8 +190,11 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparCamposActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-       
-        cadastrarIdioma();
+        if (idIdiomaSelecionado == 0){
+            cadastrarIdioma();
+        }else{
+            editarIdioma();
+        }
         carregarTabela();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -192,6 +202,20 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
         excluirIdioma();
         carregarTabela();
     }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void tblIdiomaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIdiomaMouseClicked
+        if (evt.getClickCount() == 2){
+            DefaultTableModel modeloTabela = (DefaultTableModel) tblIdioma.getModel();
+            int linhaSelecionada = tblIdioma.getSelectedRow();
+            idIdiomaSelecionado = (Integer) modeloTabela.getValueAt(linhaSelecionada, 0);
+            
+            String nomeIdioma = (String) modeloTabela.getValueAt(linhaSelecionada, 1);
+            String codigoISO = (String) modeloTabela.getValueAt(linhaSelecionada, 2);
+            
+            txtNomeIdioma.setText(nomeIdioma);
+            txtCodigoISO.setText(codigoISO);
+         }
+    }//GEN-LAST:event_tblIdiomaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -268,12 +292,44 @@ public class JanelaCadastroIdioma extends javax.swing.JInternalFrame {
         int linhaSeleciona = tblIdioma.getSelectedRow();
         
         int idIdioma = (Integer) modeloTabela.getValueAt(linhaSeleciona, 0);
+        String nomeIdioma = (String) modeloTabela.getValueAt(linhaSeleciona, 1);
         
-        try{
-            idiomaController.excluirIdioma(idIdioma);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Erro: " + e);
+        int confirma = JOptionPane.showConfirmDialog(this,
+                "Tem certeza que deseja excluir o idioma " + nomeIdioma + "?");
+        if (confirma == 0){
+            try{
+                idiomaController.excluirIdioma(idIdioma);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Erro: " + e);
+            }
         }
     }
-    
+  
+    private void editarIdioma(){
+        String nomeIdioma = txtNomeIdioma.getText();
+        String codigoISO  = txtCodigoISO.getText();
+        boolean editou;
+        int confirmar = JOptionPane.showConfirmDialog(this,
+                "Tem certeza que deseja atualizar este idioma.");
+        if (confirmar == 0){
+            try{
+                IdiomaController idiomaController = new IdiomaController();
+                editou = idiomaController.editarIdioma(idIdiomaSelecionado, nomeIdioma, codigoISO);
+                if (editou){
+                    JOptionPane.showMessageDialog(this, "Idioma atualizado com sucesso.");
+                    idIdiomaSelecionado = 0;
+                    limparCampos();
+                    carregarTabela();
+                }else{
+                    JOptionPane.showMessageDialog(this,
+                            "Os campos não foram preenchidos corretamente.");
+                }
+            }catch(ExceptionDAO e){
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar idioma: " + e);
+            }
+        }else if (confirmar == 2){
+            idIdiomaSelecionado = 0;
+            limparCampos();
+        }
+    }
 }

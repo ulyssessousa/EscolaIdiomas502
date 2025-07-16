@@ -48,7 +48,8 @@ public class Idioma {
         new IdiomaDAO().cadastrarIdioma(idioma);
     }
     
-    public void atualizarIdioma(Idioma idioma){
+    public void atualizarIdioma(Idioma idioma) throws ExceptionDAO{
+        new IdiomaDAO().editarIdioma(idioma);
         
     }
     
